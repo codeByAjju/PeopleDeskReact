@@ -38,6 +38,24 @@ function AdminSidebar() {
 
         <NavLink
           className={navLinkClass}
+          to={SuperAdminAccessRoute.ADMIN_EMPLOYEE.path}
+        >
+          <span className="nav-icon">
+            <i className="bi bi-people" aria-hidden="true"></i>
+          </span>
+          <span className="nav-text">Employees</span>
+        </NavLink>
+        <NavLink
+          className={navLinkClass}
+          to={SuperAdminAccessRoute.ADMIN_DEPARTMENT.path}
+        >
+          <span className="nav-icon">
+            <i className="bi bi-briefcase" aria-hidden="true"></i>
+          </span>
+          <span className="nav-text">Department</span>
+        </NavLink>
+        <NavLink
+          className={navLinkClass}
           to={SuperAdminAccessRoute.ADMIN_USERS.path}
         >
           <span className="nav-icon">
@@ -64,7 +82,7 @@ function AdminSidebar() {
           <span className="nav-text">Profile</span>
         </NavLink>
 
-         <NavLink
+        <NavLink
           className={navLinkClass}
           to={SuperAdminAccessRoute.ADMIN_CHARTS.path}
         >

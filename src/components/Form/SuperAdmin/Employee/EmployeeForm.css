@@ -1,0 +1,53 @@
+@import "../Company/CompanyForm.css";
+
+.company-input-wrap .form-select {
+    width: 100%;
+    height: 44px;
+    padding: 0.65rem 1rem 0.65rem 2.65rem !important;
+    border: 1.5px solid var(--company-border);
+    border-radius: var(--company-radius);
+    font-size: 0.885rem;
+    color: var(--company-text);
+    background-color: var(--company-bg-input);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.company-input-wrap .form-select:hover {
+    border-color: #cbd5e1;
+    background-color: #ffffff;
+}
+
+.company-input-wrap .form-select:focus {
+    border-color: var(--company-primary) !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 3.5px rgba(99, 102, 241, 0.12) !important;
+}
+
+.company-input-wrap .form-select.is-invalid {
+    border-color: var(--company-error) !important;
+    background-color: #fffafb !important;
+}
+
+.employee-checkbox-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    height: 44px;
+    padding: 0 1rem;
+    border: 1.5px solid var(--company-border, #e2e8f0);
+    border-radius: 0.65rem;
+    background-color: #f8fafc;
+}
+
+.employee-checkbox-wrap input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+.employee-checkbox-wrap span {
+    font-size: 0.885rem;
+    color: #1e293b;
+}
