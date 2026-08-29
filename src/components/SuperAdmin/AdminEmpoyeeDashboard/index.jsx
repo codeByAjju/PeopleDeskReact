@@ -1,7 +1,8 @@
 import SuperAdminAccessRoute from "../../../routeControl/superAdminRoutMap";
 import { Link } from "react-router-dom";
 
-function AdminEmployeeDashboard() {
+function AdminEmployeeDashboard({ dashboardStats }) {
+  console.log("dashboardStats", dashboardStats)
   return (<main className="">
     <div className="container-fluid px-3 px-lg-4 py-4">
       {/* Page Heading */}
@@ -49,7 +50,7 @@ function AdminEmployeeDashboard() {
                 <i className="bi bi-check-circle" aria-hidden="true"></i>
               </span>
             </div>
-            <div className="metric-value">10</div>
+            <div className="metric-value">{dashboardStats?.activeEmployees}</div>
             <div className="metric-meta">
               <span className="text-success">+83.33%</span>
             </div>
@@ -65,7 +66,7 @@ function AdminEmployeeDashboard() {
                 <i className="bi bi-pause-circle" aria-hidden="true"></i>
               </span>
             </div>
-            <div className="metric-value">2</div>
+            <div className="metric-value">{dashboardStats?.inactiveEmployees}</div>
             <div className="metric-meta">
               <span className="text-success">16.67%</span>
             </div>
@@ -81,7 +82,7 @@ function AdminEmployeeDashboard() {
                 <i className="bi bi-x-circle" aria-hidden="true"></i>
               </span>
             </div>
-            <div className="metric-value">0</div>
+            <div className="metric-value">{dashboardStats?.terminatedEmployees}</div>
             <div className="metric-meta">
               <span className="">Employment ended</span>
             </div>

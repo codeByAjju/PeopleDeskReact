@@ -84,4 +84,15 @@ export const SuperAdminEmployeeServices = {
       throw error;
     }
   },
+  superAdminEmployeeStats: async () => {
+    try {
+      const payload = {
+        ...SuperAdminEmployee.employeeStats,
+      };
+      const res = await APIrequest(payload);
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  },
 }

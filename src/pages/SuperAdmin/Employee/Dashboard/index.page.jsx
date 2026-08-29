@@ -9,6 +9,7 @@ import { useDebounce } from "../../../../hooks";
 import SuperAdminAccessRoute from "../../../../routeControl/superAdminRoutMap";
 
 function SuperAdminEmployeeDashboard() {
+    const [dashboardStats, setDashboardStats] = useState([])
     const [pagination, setPagination] = useState({ page: 1, limit: 10, totalItems: 0 });
     const [searchQuery, setSearchQuery] = useState("");
     const [sortConfig, setSortConfig] = useState({ key: null, order: "desc" });
@@ -44,9 +45,20 @@ function SuperAdminEmployeeDashboard() {
         }
     }, [pagination.page, pagination.limit, debouncedSearch, sortConfig, debouncedColFilters]);
 
+    const fetchDashBoardStats = useCallback(async () => {
+        try {
+            const res = await SuperAdminEmployeeServices.superAdminEmployeeStats();
+            setDashboardStats(res?.data?.result)
+        } catch (error) {
+            toast.error("Error fetching employee data");
+        }
+    }, []);
     useEffect(() => {
         fetchEmployees();
     }, [fetchEmployees]);
+    useEffect(() => {
+        fetchDashBoardStats();
+    }, [fetchDashBoardStats])
 
     const handleView = (employee) => {
         navigate(`${SuperAdminAccessRoute.ADMIN_EMPLOYEE.path}/${employee.id}`);
@@ -55,6 +67,7 @@ function SuperAdminEmployeeDashboard() {
     const handleEdit = (employee) => {
         navigate(`/superAdmin/edit-employee/${employee.id}`);
     };
+
 
     const handleDelete = async (employee) => {
         const confirmed = await SweetAlert.confirm({
@@ -84,7 +97,18 @@ function SuperAdminEmployeeDashboard() {
             { title: "Name", key: "firstName", sorting: true, filter: true },
             { title: "Email", key: "email", sorting: true, filter: true },
             { title: "Phone Number", key: "phoneNumber", sorting: true, filter: true },
-            { title: "Employment Type", key: "employmentType", sorting: true, filter: true },
+            {
+                title: "Employment Type", key: "employmentType",
+                filterType: "select",
+                filterOptions: [
+                    { label: "Full Time", value: "full_time" },
+                    { label: "Part Time", value: "part_time" },
+                    { label: "Contract", value: "contract" },
+                    { label: "Intern", value: "intern" },
+                    { label: "Temporary", value: "temporary" },
+                ],
+                sorting: true, filter: true
+            },
             {
                 title: "Status",
                 key: "employmentStatus",
@@ -122,7 +146,17 @@ function SuperAdminEmployeeDashboard() {
                     </li>
                     <li>
                         <button disabled={employee.employmentStatus === "deleted"} type="button" className="btn btn-icon btn-trigger" title="Delete" onClick={() => handleDelete(employee)}>
-                            <em className="bi bi-trash" style={{ color: employee.employmentStatus === "deleted" ? "gray" : "#e85347", border: employee.employmentStatus === "deleted" ? "none" : "#e85347" }} />
+                            <em
+                                className="bi bi-trash"
+                                style={{
+                                    color:
+                                        employee.employmentStatus === "deleted" ? "gray" :
+                                            employee.employmentStatus === "inactive" ? "#f0ad4e" :
+                                                employee.employmentStatus === "terminated" ? "#6c757d" :
+                                                    "#e85347",
+                                    border: employee.employmentStatus === "deleted" ? "none" : "1px solid currentColor",
+                                }}
+                            />
                         </button>
                     </li>
                 </ul>
@@ -132,7 +166,7 @@ function SuperAdminEmployeeDashboard() {
 
     return (
         <>
-            <AdminEmployeeDashboard />
+            <AdminEmployeeDashboard dashboardStats={dashboardStats} />
             <div className="container-fluid px-4 pb-4">
                 <div className="mt-4">
                     <DataTable

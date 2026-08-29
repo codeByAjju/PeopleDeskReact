@@ -31,6 +31,7 @@ const SuperAdminAccessRoute = {
   EDIT_EMPLOYEE: { path: `${baseRoutes.superAdminBaseRoute}/edit-employee/:id` },
   VIEW_EMPLOYEE: { path: `${baseRoutes.superAdminBaseRoute}/employee/:id` },
   ADMIN_EMPLOYEE: { path: `${baseRoutes.superAdminBaseRoute}/employee` },
+  ADMIN_DEPARTMENT: { path: `${baseRoutes.superAdminBaseRoute}/department` },
 
 };
 

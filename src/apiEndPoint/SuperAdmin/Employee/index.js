@@ -3,6 +3,10 @@ const SuperAdminEmployee = {
         method: "GET",
         url: "/employee/list"
     },
+    employeeStats: {
+        method: "GET",
+        url: "/employee/stats"
+    },
     createEmployee: {
         method: "POST",
         url: "/employee/create"
