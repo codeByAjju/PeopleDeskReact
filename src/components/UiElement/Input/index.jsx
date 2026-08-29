@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { FormControl, Form } from "react-bootstrap";
 // import { uploadImage } from "../../../../apiEndPoints/Media";
 import { toast } from "react-toastify";
 
-export function Input({
+function InputBase({
   type = "",
   extraClass = "",
   position = "",
@@ -125,3 +125,5 @@ export function Input({
     </>
   );
 }
+
+export const Input = memo(InputBase);

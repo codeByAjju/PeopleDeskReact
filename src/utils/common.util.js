@@ -26,6 +26,42 @@ export const removeLocalStorageToken = (navigate) => {
   }
 };
 
+export const extractApiList = (res, keys = []) => {
+  const result = res?.data?.result ?? res?.data?.data ?? res?.data;
+  if (Array.isArray(result)) return result;
+  if (!result || typeof result !== "object") return [];
+  for (const key of keys) {
+    if (Array.isArray(result[key])) return result[key];
+  }
+  if (Array.isArray(result.rows)) return result.rows;
+  if (Array.isArray(result.list)) return result.list;
+  if (Array.isArray(result.items)) return result.items;
+  return [];
+};
+
+export const extractApiItem = (res) =>
+  res?.data?.result ?? res?.data?.data ?? res?.data ?? null;
+
+export const getMasterLabel = (item) => {
+  if (!item || typeof item !== "object") return "";
+  return (
+    item.name ||
+    item.countryName ||
+    item.stateName ||
+    item.cityName ||
+    item.title ||
+    item.code ||
+    [item.firstName, item.lastName].filter(Boolean).join(" ").trim() ||
+    ""
+  );
+};
+
+export const findMasterLabel = (list, id) => {
+  if (id === null || id === undefined || id === "") return "";
+  const match = (list || []).find((item) => String(item?.id) === String(id));
+  return getMasterLabel(match);
+};
+
 export const uploadImage = async (file, mediaType = "logo", mediaFor = "company") => {
   const formData = new FormData();
   formData.append("file", file);

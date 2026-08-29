@@ -14,3 +14,6 @@ export const AdminCharts = loadable(() => import("./AdminCharts/index"));
 export const AdminCompanyDashboard = loadable(() => import("./AdminCompanyDashboard/index"));
 export const AdminCompanyDetail = loadable(() => import("./AdminCompanyDetail/index"));
 export const CompanyDetailsSkeleton = loadable(() => import("./Company/Skelton/index"));
+export const AdminEmployeeDashboard = loadable(() => import("./AdminEmpoyeeDashboard/index"));
+export const AdminEmployeeDetail = loadable(() => import("./AdminEmployeeDetail/index"));
+export const EmployeeDetailsSkeleton = loadable(() => import("./Employee/Skelton/index"));

@@ -38,6 +38,15 @@ function AdminSidebar() {
 
         <NavLink
           className={navLinkClass}
+          to={SuperAdminAccessRoute.ADMIN_EMPLOYEE.path}
+        >
+          <span className="nav-icon">
+            <i className="bi bi-people" aria-hidden="true"></i>
+          </span>
+          <span className="nav-text">Employees</span>
+        </NavLink>
+        <NavLink
+          className={navLinkClass}
           to={SuperAdminAccessRoute.ADMIN_USERS.path}
         >
           <span className="nav-icon">

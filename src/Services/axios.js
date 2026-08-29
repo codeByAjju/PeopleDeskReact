@@ -2,6 +2,7 @@ import axios from "axios";
 import { GetLocalStorageToken, removeLocalStorageToken } from "../utils/common.util";
 import store, { Persistor } from "../redux/store";
 import { logoutSuperAdminAction } from "../redux/AuthSlice";
+import { toast } from "react-toastify";
 export const APIrequest = async ({
     method,
     url,
@@ -91,6 +92,14 @@ export const APIrequest = async ({
             if (currentAuth?.userData?.token || currentAuth?.superAdminAuth?.token) {
                 store.dispatch(logoutSuperAdminAction());
             }
+        }
+        if (
+            errorRes &&
+            errorRes?.status &&
+            errorRes?.status === 409
+        ) {
+            console.log("error :", errorRes?.data?.message);
+            toast.warning(errorRes?.data?.message || 'Error Occured');
         }
         console.log(error);
     }

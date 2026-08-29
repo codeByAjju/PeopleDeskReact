@@ -27,6 +27,10 @@ const SuperAdminAccessRoute = {
   CREATE_COMPANY: { path: `${baseRoutes.superAdminBaseRoute}/create-company` },
   EDIT_COMPANY: { path: `${baseRoutes.superAdminBaseRoute}/edit-company/:id` },
   VIEW_COMPANY: { path: `${baseRoutes.superAdminBaseRoute}/company/:id` },
+  CREATE_EMPLOYEE: { path: `${baseRoutes.superAdminBaseRoute}/create-employee` },
+  EDIT_EMPLOYEE: { path: `${baseRoutes.superAdminBaseRoute}/edit-employee/:id` },
+  VIEW_EMPLOYEE: { path: `${baseRoutes.superAdminBaseRoute}/employee/:id` },
+  ADMIN_EMPLOYEE: { path: `${baseRoutes.superAdminBaseRoute}/employee` },
 
 };
 
