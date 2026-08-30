@@ -1,5 +1,6 @@
 import { Skeleton } from "antd";
-import "../../AdminCompanyDetail/CompanyDetailsPage.css";
+import "../../../SuperAdmin/AdminCompanyDetail/CompanyDetailsPage.css";
+
 
 const EmployeeDetailsSkeleton = () => {
     return (

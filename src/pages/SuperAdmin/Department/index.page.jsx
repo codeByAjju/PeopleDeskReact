@@ -1,0 +1,1 @@
+export { default as SuperAdminDepartmentDashboard } from "./Dashboard/index.page.jsx";

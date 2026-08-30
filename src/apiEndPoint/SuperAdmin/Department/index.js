@@ -5,19 +5,23 @@ const SuperAdminDepartment = {
     },
     createDepartment: {
         method: "POST",
-        url: "/depdepartment/create",
+        url: "/department/create",
     },
-    editDepartment: {
-        method: "PUT",
-        url: "/department-update/:id",
-    },
-    deleteDepartment: {
-        method: "PATCH",
-        url: "/department-delete/:id",
-    },
-    departmentDetails: {
+    departmentStats: {
         method: "GET",
-        url: "/department/:id",
+        url: "/department/stats",
     },
+    editDepartment: (id) => ({
+        method: "PUT",
+        url: `/department-update/${id}`,
+    }),
+    deleteDepartment: (id) => ({
+        method: "PATCH",
+        url: `/department-delete/${id}`,
+    }),
+    departmentDetails: (id) => ({
+        method: "GET",
+        url: `/department/${id}`,
+    }),
 };
 export default SuperAdminDepartment;

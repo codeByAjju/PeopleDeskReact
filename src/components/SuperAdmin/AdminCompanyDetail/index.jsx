@@ -3,7 +3,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./CompanyDetailsPage.css";
 import { SuperAdminCompanyServices } from "../../../Services/SuperAdmin/Company/index.service";
-import CompanyDetailsSkeleton from "../Company/Skelton";
+import { CompanyDetailsSkeleton } from "../../UiElement";
 
 
 const STATUS_BADGE_MAP = {
