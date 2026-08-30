@@ -15,11 +15,11 @@ export const SuperAdminDepartmentServices = {
     }
   },
 
-  superAdminCreateDepartment: async (data) => {
+  superAdminCreateDepartment: async (bodyData) => {
     try {
       const payload = {
         ...SuperAdminDepartment.createDepartment,
-        data,
+        bodyData,
       };
       const res = await APIrequest(payload);
       return res;
@@ -31,8 +31,7 @@ export const SuperAdminDepartmentServices = {
   superAdminDepartmentDetails: async (id) => {
     try {
       const payload = {
-        ...SuperAdminDepartment.departmentDetails,
-        params: { id },
+        ...SuperAdminDepartment.departmentDetails(id),
       };
       const res = await APIrequest(payload);
       return res;
@@ -41,12 +40,11 @@ export const SuperAdminDepartmentServices = {
     }
   },
 
-  superAdminEditDepartment: async (id, data) => {
+  superAdminEditDepartment: async (id, bodyData) => {
     try {
       const payload = {
-        ...SuperAdminDepartment.editDepartment,
-        params: { id },
-        data,
+        ...SuperAdminDepartment.editDepartment(id),
+        bodyData,
       };
       const res = await APIrequest(payload);
       return res;
@@ -58,8 +56,19 @@ export const SuperAdminDepartmentServices = {
   superAdminDeleteDepartment: async (id) => {
     try {
       const payload = {
-        ...SuperAdminDepartment.deleteDepartment,
-        params: { id },
+        ...SuperAdminDepartment.deleteDepartment(id),
+      };
+      const res = await APIrequest(payload);
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  superAdminDepartmentStats: async () => {
+    try {
+      const payload = {
+        ...SuperAdminDepartment.departmentStats,
       };
       const res = await APIrequest(payload);
       return res;

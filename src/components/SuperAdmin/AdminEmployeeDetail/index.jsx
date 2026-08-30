@@ -11,9 +11,9 @@ import { SuperAdminShiftServices } from "../../../Services/SuperAdmin/Shift/inde
 import { SuperAdminCountryServices } from "../../../Services/SuperAdmin/Country/index.service";
 import { SuperAdminStateServices } from "../../../Services/SuperAdmin/State/index.service";
 import { SuperAdminCityServices } from "../../../Services/SuperAdmin/City/index.service";
-import EmployeeDetailsSkeleton from "../Employee/Skelton";
 import SuperAdminAccessRoute from "../../../routeControl/superAdminRoutMap";
 import { extractApiItem, extractApiList, findMasterLabel, getMasterLabel } from "../../../utils/common.util";
+import { EmployeeDetailsSkeleton } from "../../UiElement";
 
 
 const STATUS_BADGE_MAP = {
