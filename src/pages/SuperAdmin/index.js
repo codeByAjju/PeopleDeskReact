@@ -6,3 +6,4 @@ export const SuperAdminUsersList = React.lazy(() => import("./SuperAdminUsersLis
 export * from "./Company/index.page";
 export * from "./Employee/index.page";
 export * from "./Department/index.page";
+export * from "./Designation/index.page";

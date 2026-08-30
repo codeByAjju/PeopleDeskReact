@@ -17,3 +17,5 @@ export const AdminEmployeeDashboard = loadable(() => import("./AdminEmpoyeeDashb
 export const AdminEmployeeDetail = loadable(() => import("./AdminEmployeeDetail/index"));
 export const AdminDepartmentDashboard = loadable(() => import("./AdminDepartmentDashboard/index"));
 export const AdminDepartmentDetail = loadable(() => import("./AdminDepartmentDetail/index"));
+export const AdminDesignationDashboard = loadable(() => import("./AdminDesignationDashboard/index"));
+export const AdminDesignationDetail = loadable(() => import("./AdminDesignationDetail/index"));
