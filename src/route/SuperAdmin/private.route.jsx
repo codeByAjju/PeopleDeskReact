@@ -4,6 +4,7 @@ import adminDashboard from '../SuperAdmin/AdminDashboard/index.route';
 import adminCompany from '../SuperAdmin/AdminCompany/index.route';
 import adminEmployee from '../SuperAdmin/AdminEmployee/index.route';
 import adminDepartment from "../SuperAdmin/AdminDepartment/index.route";
+import adminDesignation from "../SuperAdmin/AdminDesignation/index.route";
 export default function route() {
     return [
         ...adminDashboard(),
@@ -11,6 +12,7 @@ export default function route() {
         ...adminUsers(),
         ...adminCompany(),
         ...adminEmployee(),
-        ...adminDepartment()
+        ...adminDepartment(),
+        ...adminDesignation(),
     ];
 }

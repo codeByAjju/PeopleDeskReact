@@ -1,24 +1,18 @@
-import SuperAdminAccessRoute from "../../../routeControl/superAdminRoutMap";
-import { Link } from "react-router-dom";
-
-function AdminEmployeeDashboard({ dashboardStats }) {
+function AdminDesignationDashboard({ dashboardStats, onCreateClick }) {
   return (<main className="">
     <div className="container-fluid px-3 px-lg-4 py-4">
       {/* Page Heading */}
       <div className="page-heading">
         <div className="page-heading-copy">
           <div>
-            <h1 className="h3 mb-1">Employee Management</h1>
+            <h1 className="h3 mb-1">Designation Management</h1>
           </div>
         </div>
         <div className="heading-actions">
-          <button className="btn btn-outline-secondary btn-sm" type="button">
-            <i className="bi bi-download" aria-hidden="true"></i> Export
-          </button>
-          <Link to={SuperAdminAccessRoute.CREATE_EMPLOYEE.path} className="btn btn-primary btn-sm" type="button">
+          <button onClick={onCreateClick} className="btn btn-primary btn-sm" type="button">
             <i className="bi bi-file-earmark-plus" aria-hidden="true"></i>
-            Create Employee
-          </Link>
+            Create Designation
+          </button>
         </div>
       </div>
 
@@ -28,15 +22,12 @@ function AdminEmployeeDashboard({ dashboardStats }) {
         <div className="col-12 col-sm-6 col-xl-3">
           <article className="metric-card metric-primary">
             <div className="metric-top">
-              <span className="metric-label">Total Employees</span>
+              <span className="metric-label">Total Designations</span>
               <span className="metric-icon">
-                <i className="bi bi-people" aria-hidden="true"></i>
+                <i className="bi bi-building" aria-hidden="true"></i>
               </span>
             </div>
-            <div className="metric-value">12</div>
-            <div className="metric-meta">
-              <span className="text-success">+2 this month</span>
-            </div>
+            <div className="metric-value">{dashboardStats?.totalDesignations ?? 0}</div>
           </article>
         </div>
 
@@ -44,15 +35,12 @@ function AdminEmployeeDashboard({ dashboardStats }) {
         <div className="col-12 col-sm-6 col-xl-3">
           <article className="metric-card metric-success">
             <div className="metric-top">
-              <span className="metric-label">Active Employees</span>
+              <span className="metric-label">Active Designations</span>
               <span className="metric-icon">
                 <i className="bi bi-check-circle" aria-hidden="true"></i>
               </span>
             </div>
-            <div className="metric-value">{dashboardStats?.activeEmployees}</div>
-            <div className="metric-meta">
-              <span className="text-success">+83.33%</span>
-            </div>
+            <div className="metric-value">{dashboardStats?.activeDesignations ?? 0}</div>
           </article>
         </div>
 
@@ -60,15 +48,12 @@ function AdminEmployeeDashboard({ dashboardStats }) {
         <div className="col-12 col-sm-6 col-xl-3">
           <article className="metric-card metric-warning">
             <div className="metric-top">
-              <span className="metric-label">Inactive Employees</span>
+              <span className="metric-label">Inactive Designations</span>
               <span className="metric-icon">
                 <i className="bi bi-pause-circle" aria-hidden="true"></i>
               </span>
             </div>
-            <div className="metric-value">{dashboardStats?.inactiveEmployees}</div>
-            <div className="metric-meta">
-              <span className="text-success">16.67%</span>
-            </div>
+            <div className="metric-value">{dashboardStats?.inactiveDesignations ?? 0}</div>
           </article>
         </div>
 
@@ -76,15 +61,12 @@ function AdminEmployeeDashboard({ dashboardStats }) {
         <div className="col-12 col-sm-6 col-xl-3">
           <article className="metric-card metric-primary">
             <div className="metric-top">
-              <span className="metric-label">Terminated</span>
+              <span className="metric-label">Total Designation</span>
               <span className="metric-icon">
-                <i className="bi bi-x-circle" aria-hidden="true"></i>
+                <i className="bi bi-people" aria-hidden="true"></i>
               </span>
             </div>
-            <div className="metric-value">{dashboardStats?.terminatedEmployees}</div>
-            <div className="metric-meta">
-              <span className="">Employment ended</span>
-            </div>
+            <div className="metric-value">{dashboardStats?.totalDesignations ?? 0}</div>
           </article>
         </div>
       </section>
@@ -92,4 +74,4 @@ function AdminEmployeeDashboard({ dashboardStats }) {
   </main>);
 }
 
-export default AdminEmployeeDashboard;
+export default AdminDesignationDashboard;

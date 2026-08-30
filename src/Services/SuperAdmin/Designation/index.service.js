@@ -25,4 +25,65 @@ export const SuperAdminDesignationServices = {
       throw error;
     }
   },
+  superAdminCreateDesignation: async (bodyData) => {
+    try {
+      const payload = {
+        ...SuperAdminDesignation.createDesignation,
+        bodyData,
+      };
+      const res = await APIrequest(payload);
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  },
+  superAdminUpdateDesignation: async (id, bodyData) => {
+    try {
+      const payload = {
+        ...SuperAdminDesignation.updateDesignation(id),
+        bodyData,
+      };
+      const res = await APIrequest(payload);
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  },
+  superAdminDeleteDesignation: async (id) => {
+    try {
+      const payload = {
+        ...SuperAdminDesignation.deleteDesignation(id),
+      };
+      const res = await APIrequest(payload);
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  superAdminDesignationDetails: async (id) => {
+    try {
+      const payload = {
+        ...SuperAdminDesignation.designationDetails(id),
+      };
+      const res = await APIrequest(payload);
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  superAdminDesignationStats: async (queryParams) => {
+    try {
+      const payload = {
+        ...SuperAdminDesignation.designationStats,
+        queryParams,
+      };
+      const res = await APIrequest(payload);
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
+
