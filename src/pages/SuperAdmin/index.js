@@ -7,3 +7,4 @@ export * from "./Company/index.page";
 export * from "./Employee/index.page";
 export * from "./Department/index.page";
 export * from "./Designation/index.page";
+export * from "./Branch/index.page";

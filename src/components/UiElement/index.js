@@ -8,4 +8,5 @@ export { Input } from './Input/index.jsx';
 export { Table } from './DataTable/Table/index.jsx';
 export { Badge } from './Badge/index.jsx';
 export { SelectPicker } from './SelectPicker/index.jsx';
+export { StatusSelector } from './StatusSelector/index.jsx';
 export { Modal } from './Modal/index.jsx';

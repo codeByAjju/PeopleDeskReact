@@ -1,0 +1,1 @@
+export { default as SuperAdminBranchDashboard } from "./Dashboard/index.page.jsx";
