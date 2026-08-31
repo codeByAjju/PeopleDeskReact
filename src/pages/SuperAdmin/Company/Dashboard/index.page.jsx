@@ -12,13 +12,14 @@ function SuperAdminCompanyDashboard() {
     const [searchQuery, setSearchQuery] = useState("");
     const [sortConfig, setSortConfig] = useState({ key: null, order: "desc" });
     const [colFilters, setColFilters] = useState({});
+    const [debounceFlushKey, setDebounceFlushKey] = useState(0);
     const [loading, setLoading] = useState(false);
     const [companies, setCompanies] = useState([]);
     const navigate = useNavigate();
 
     // Debounce search query and column filters to prevent redundant API calls
-    const debouncedSearch = useDebounce(searchQuery, 900);
-    const debouncedColFilters = useDebounce(colFilters, 900);
+    const debouncedSearch = useDebounce(searchQuery, 900, debounceFlushKey);
+    const debouncedColFilters = useDebounce(colFilters, 900, debounceFlushKey);
 
     const fetchCompanies = useCallback(async () => {
         setLoading(true);
@@ -137,8 +138,9 @@ function SuperAdminCompanyDashboard() {
                         searchPlaceholder="Search companies..."
                         loading={loading}
                         searchQuery={searchQuery}
-                        onSearchChange={(val) => {
+                        onSearchChange={(val, meta) => {
                             setSearchQuery(val);
+                            if (meta?.immediate) setDebounceFlushKey((key) => key + 1);
                             setPagination((p) => ({ ...p, page: 1 }));
                         }}
                         sortConfig={sortConfig}
@@ -147,8 +149,9 @@ function SuperAdminCompanyDashboard() {
                             setPagination((p) => ({ ...p, page: 1 }));
                         }}
                         colFilters={colFilters}
-                        onColFilterChange={(key, val) => {
+                        onColFilterChange={(key, val, meta) => {
                             setColFilters((prev) => ({ ...prev, [key]: val }));
+                            if (meta?.immediate) setDebounceFlushKey((flushKey) => flushKey + 1);
                             setPagination((p) => ({ ...p, page: 1 }));
                         }}
                         currentPage={pagination.page}
