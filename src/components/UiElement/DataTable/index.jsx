@@ -53,6 +53,8 @@ export function DataTable({
 
   const startRecord = totalItems === 0 ? 0 : (safeCurrentPage - 1) * safeRowsPerPage + 1;
   const endRecord = Math.min(safeCurrentPage * safeRowsPerPage, totalItems);
+  const hasSearchValue = searchQuery !== "";
+  const immediateClearMeta = { action: "clear", immediate: true };
 
   const toggleFilter = (key) => setOpenFilter((prev) => (prev === key ? null : key));
 
@@ -62,6 +64,27 @@ export function DataTable({
     onSortChange?.({ key, order: newOrder });
   };
 
+  const handleSearchChange = (event) => {
+    const nextValue = event.target.value;
+    onSearchChange?.(
+      nextValue,
+      nextValue === "" && hasSearchValue ? immediateClearMeta : undefined
+    );
+  };
+
+  const handleSearchClear = () => {
+    onSearchChange?.("", immediateClearMeta);
+  };
+
+  const handleColumnFilterChange = (key, value, meta) => {
+    onColFilterChange?.(key, value, meta);
+  };
+
+  const handleColumnFilterClear = (key) => {
+    handleColumnFilterChange(key, "", immediateClearMeta);
+    setOpenFilter(null);
+  };
+
   const renderFilterControl = (col) => {
     const filterVal = colFilters[col.key] ?? "";
 
@@ -69,7 +92,7 @@ export function DataTable({
       return col.filterRender({
         column: col,
         value: filterVal,
-        onChange: (val) => onColFilterChange?.(col.key, val),
+        onChange: (val, meta) => handleColumnFilterChange(col.key, val, meta),
         closeFilter: () => setOpenFilter(null),
       });
     }
@@ -100,7 +123,11 @@ export function DataTable({
             value={filterVal}
             onChange={(selected) => {
               const val = selected ? (selected.value !== undefined ? selected.value : selected) : "";
-              onColFilterChange?.(col.key, val);
+              handleColumnFilterChange(
+                col.key,
+                val,
+                !selected && filterVal !== "" ? immediateClearMeta : undefined
+              );
             }}
             isClearable
           />
@@ -115,7 +142,14 @@ export function DataTable({
           type="date"
           className="dt-col-filter-input"
           value={filterVal}
-          onChange={(e) => onColFilterChange?.(col.key, e.target.value)}
+          onChange={(e) => {
+            const nextValue = e.target.value;
+            handleColumnFilterChange(
+              col.key,
+              nextValue,
+              nextValue === "" && filterVal !== "" ? immediateClearMeta : undefined
+            );
+          }}
           onKeyDown={(e) => {
             if (e.key === "Escape" || e.key === "Enter") setOpenFilter(null);
           }}
@@ -131,7 +165,14 @@ export function DataTable({
           className="dt-col-filter-input"
           placeholder={col.filterPlaceholder || `Filter ${col.title}...`}
           value={filterVal}
-          onChange={(e) => onColFilterChange?.(col.key, e.target.value)}
+          onChange={(e) => {
+            const nextValue = e.target.value;
+            handleColumnFilterChange(
+              col.key,
+              nextValue,
+              nextValue === "" && filterVal !== "" ? immediateClearMeta : undefined
+            );
+          }}
           onKeyDown={(e) => {
             if (e.key === "Escape" || e.key === "Enter") setOpenFilter(null);
           }}
@@ -147,7 +188,14 @@ export function DataTable({
         className="dt-col-filter-input"
         placeholder={col.filterPlaceholder || `Filter ${col.title}...`}
         value={filterVal}
-        onChange={(e) => onColFilterChange?.(col.key, e.target.value)}
+        onChange={(e) => {
+          const nextValue = e.target.value;
+          handleColumnFilterChange(
+            col.key,
+            nextValue,
+            nextValue === "" && filterVal !== "" ? immediateClearMeta : undefined
+          );
+        }}
         onKeyDown={(e) => {
           if (e.key === "Escape" || e.key === "Enter") setOpenFilter(null);
         }}
@@ -170,8 +218,19 @@ export function DataTable({
               className="dt-search-input"
               placeholder={searchPlaceholder}
               value={searchQuery}
-              onChange={(e) => onSearchChange?.(e.target.value)}
+              onChange={handleSearchChange}
             />
+            {hasSearchValue && (
+              <button
+                type="button"
+                className="dt-search-clear-btn"
+                onClick={handleSearchClear}
+                aria-label="Clear search"
+                title="Clear search"
+              >
+                <i className="bi bi-x" aria-hidden="true" />
+              </button>
+            )}
           </div>
           {onExport && (
             <button className="dt-export-btn" onClick={onExport} type="button">
@@ -238,10 +297,7 @@ export function DataTable({
                                   <button
                                     type="button"
                                     className="dt-col-filter-clear-btn"
-                                    onClick={() => {
-                                      onColFilterChange?.(col.key, "");
-                                      setOpenFilter(null);
-                                    }}
+                                    onClick={() => handleColumnFilterClear(col.key)}
                                   >
                                     Clear
                                   </button>

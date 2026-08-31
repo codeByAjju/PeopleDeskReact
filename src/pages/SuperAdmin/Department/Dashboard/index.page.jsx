@@ -12,14 +12,15 @@ function SuperAdminDepartmentDashboard() {
     const [searchQuery, setSearchQuery] = useState("");
     const [sortConfig, setSortConfig] = useState({ key: null, order: "desc" });
     const [colFilters, setColFilters] = useState({});
+    const [debounceFlushKey, setDebounceFlushKey] = useState(0);
     const [loading, setLoading] = useState(false);
     const [departments, setDepartments] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [modalMode, setModalMode] = useState("view"); // "view" | "edit" | "create"
     const [selectedDepartmentId, setSelectedDepartmentId] = useState(null);
 
-    const debouncedSearch = useDebounce(searchQuery, 900);
-    const debouncedColFilters = useDebounce(colFilters, 900);
+    const debouncedSearch = useDebounce(searchQuery, 900, debounceFlushKey);
+    const debouncedColFilters = useDebounce(colFilters, 900, debounceFlushKey);
 
     const handleClose = () => {
         setShowModal(false);
@@ -162,8 +163,9 @@ function SuperAdminDepartmentDashboard() {
                         searchPlaceholder="Search departments..."
                         loading={loading}
                         searchQuery={searchQuery}
-                        onSearchChange={(val) => {
+                        onSearchChange={(val, meta) => {
                             setSearchQuery(val);
+                            if (meta?.immediate) setDebounceFlushKey((key) => key + 1);
                             setPagination((p) => ({ ...p, page: 1 }));
                         }}
                         sortConfig={sortConfig}
@@ -172,8 +174,9 @@ function SuperAdminDepartmentDashboard() {
                             setPagination((p) => ({ ...p, page: 1 }));
                         }}
                         colFilters={colFilters}
-                        onColFilterChange={(key, val) => {
+                        onColFilterChange={(key, val, meta) => {
                             setColFilters((prev) => ({ ...prev, [key]: val }));
+                            if (meta?.immediate) setDebounceFlushKey((flushKey) => flushKey + 1);
                             setPagination((p) => ({ ...p, page: 1 }));
                         }}
                         currentPage={pagination.page}
