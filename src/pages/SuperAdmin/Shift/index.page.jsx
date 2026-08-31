@@ -1,0 +1,1 @@
+export { default as SuperAdminShiftDashboard } from "./Dashboard/index.page.jsx";

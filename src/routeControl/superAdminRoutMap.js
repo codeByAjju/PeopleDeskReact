@@ -35,6 +35,7 @@ const SuperAdminAccessRoute = {
   ADMIN_DESIGNATION: { path: `${baseRoutes.superAdminBaseRoute}/designation` },
   ADMIN_BRANCH: { path: `${baseRoutes.superAdminBaseRoute}/branch` },
   ADMIN_LOCATION: { path: `${baseRoutes.superAdminBaseRoute}/location` },
+  ADMIN_SHIFT: { path: `${baseRoutes.superAdminBaseRoute}/shift` },
 
 };
 

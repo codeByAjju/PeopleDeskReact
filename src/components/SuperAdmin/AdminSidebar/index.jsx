@@ -65,6 +65,15 @@ function AdminSidebar() {
         </NavLink>
         <NavLink
           className={navLinkClass}
+          to={SuperAdminAccessRoute.ADMIN_SHIFT.path}
+        >
+          <span className="nav-icon">
+            <i className="bi bi-clock" aria-hidden="true"></i>
+          </span>
+          <span className="nav-text">Shift</span>
+        </NavLink>
+        <NavLink
+          className={navLinkClass}
           to={SuperAdminAccessRoute.ADMIN_DEPARTMENT.path}
         >
           <span className="nav-icon">

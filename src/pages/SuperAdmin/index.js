@@ -8,4 +8,5 @@ export * from "./Employee/index.page";
 export * from "./Department/index.page";
 export * from "./Designation/index.page";
 export * from "./Branch/index.page";
-export * from "./Location/index.page"
+export * from "./Location/index.page";
+export * from "./Shift/index.page";

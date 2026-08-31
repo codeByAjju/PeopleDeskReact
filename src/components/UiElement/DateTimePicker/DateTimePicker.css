@@ -1,0 +1,54 @@
+/* DateTimePicker Styling with High Z-Index for Modal Compatibility */
+
+.datePicker {
+    z-index: 9999 !important;
+}
+
+.datePicker .react-datepicker {
+    z-index: 9999 !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+}
+
+.datePicker .react-datepicker__time-container {
+    z-index: 9999 !important;
+}
+
+.datePicker .react-datepicker__time-list {
+    z-index: 9999 !important;
+    max-height: 200px;
+}
+
+.datePicker .react-datepicker__time-list-item {
+    padding: 0.5rem 0.75rem;
+    height: auto;
+    line-height: 1.5;
+}
+
+.datePicker .react-datepicker__time-list-item--selected {
+    background-color: #6366f1;
+    color: white;
+}
+
+.datePicker .react-datepicker__time-list-item:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+}
+
+/* Ensure popper element has high z-index */
+.react-datepicker-popper {
+    z-index: 9999 !important;
+}
+
+.react-datepicker-popper[data-placement^="bottom"] {
+    z-index: 9999 !important;
+}
+
+/* Fix for modal z-index conflicts */
+.modal-backdrop + .react-datepicker-popper {
+    z-index: 9999 !important;
+}
+
+.modal .react-datepicker {
+    z-index: 9999 !important;
+}
