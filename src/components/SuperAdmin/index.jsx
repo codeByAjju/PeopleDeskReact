@@ -21,3 +21,5 @@ export const AdminDesignationDashboard = loadable(() => import("./AdminDesignati
 export const AdminDesignationDetail = loadable(() => import("./AdminDesignationDetail/index"));
 export const AdminBranchDashboard = loadable(() => import("./AdminBranchDashboard/index"));
 export const AdminBranchDetail = loadable(() => import("./AdminBranchDetail/index"));
+export const AdminLocationDashboard = loadable(() => import("./AdminLocationDashboard/index"));
+export const AdminLocationDetail = loadable(() => import("./AdminLocationDetail/index"));

@@ -1,15 +1,15 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { SuperAdminBranchServices } from "../../../Services/SuperAdmin/Branch/index.service";
 import { SuperAdminStateServices } from "../../../Services/SuperAdmin/State/index.service";
 import { SuperAdminCityServices } from "../../../Services/SuperAdmin/City/index.service";
 import { extractApiItem } from "../../../utils/common.util";
 import validation from "./validation";
-import "./AdminDepartmentDetail.css";
+import "./AdminLocationDetail.css";
 import { DepartmentDetailsSkeleton, SelectPicker, StatusSelector } from "../../UiElement";
+import { SuperAdminLocationServices } from "../../../Services/SuperAdmin/Location/index.service";
 
-const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countries = [] }) => {
+const AdminLocationDetail = ({ locationId, mode = "view", onClose, onSuccess, countries = [], branches = [] }) => {
     const [loading, setLoading] = useState(false);
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
@@ -47,13 +47,16 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
         }
     };
 
+
+
+
     useEffect(() => {
-        if ((mode === "view" || mode === "edit") && branchId) {
+        if ((mode === "view" || mode === "edit") && locationId) {
             let active = true;
             const loadDetails = async () => {
                 setLoading(true);
                 try {
-                    const res = await SuperAdminBranchServices.superAdminBranchDetails(branchId);
+                    const res = await SuperAdminLocationServices.superAdminGetLocationById(locationId);
                     const data = extractApiItem(res);
                     if (data && active) {
                         setInitialValues({
@@ -61,7 +64,7 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                             code: data.code || "",
                             postalCode: data.postalCode || "",
                             address: data.address || "",
-                            phoneNumber: data.phoneNumber || "",
+                            branchId: data?.branch?.id || "",
                             countryId: data.countryId || "",
                             stateId: data.stateId || "",
                             cityId: data.cityId || "",
@@ -72,7 +75,7 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                         if (data.stateId) await fetchCities(data.stateId);
                     }
                 } catch (error) {
-                    toast.error("Failed to load branch details");
+                    toast.error("Failed to load location details");
                 } finally {
                     if (active) setLoading(false);
                 }
@@ -85,7 +88,7 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                 code: "",
                 postalCode: "",
                 address: "",
-                phoneNumber: "",
+                branchId: "",
                 countryId: "",
                 stateId: "",
                 cityId: "",
@@ -94,32 +97,32 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
             setStates([]);
             setCities([]);
         }
-    }, [branchId, mode]);
+    }, [locationId, mode]);
 
     const onSubmit = async (values, { setSubmitting }) => {
         try {
             let res;
             if (mode === "create") {
-                res = await SuperAdminBranchServices.superAdminCreateBranch(values);
+                res = await SuperAdminLocationServices.superAdminCreateLocation(values);
             } else {
-                res = await SuperAdminBranchServices.superAdminUpdateBranch(branchId, values);
+                res = await SuperAdminLocationServices.superAdminUpdateLocation(locationId, values);
             }
 
             if (res?.status === 200 || res?.status === 201) {
                 toast.success(
                     mode === "create"
-                        ? "Branch created successfully"
-                        : "Branch updated successfully"
+                        ? "Location created successfully"
+                        : "Location updated successfully"
                 );
                 if (onSuccess) onSuccess();
             } else {
-                toast.error(res?.data?.message || "Failed to process branch request");
+                toast.error(res?.data?.message || "Failed to process location request");
             }
         } catch (error) {
             toast.error(
                 error?.response?.data?.message ||
                 error?.message ||
-                "Failed to process branch request"
+                "Failed to process location request"
             );
         } finally {
             setSubmitting(false);
@@ -147,6 +150,11 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
         label: item.name,
     }));
 
+    const branchOptions = branches?.map((item) => ({
+        value: item.id,
+        label: item.name,
+    }));
+
     return (
         <Formik
             enableReinitialize
@@ -165,10 +173,10 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                 <Form className="dept-form-container">
                     <div className="dept-fields-grid">
 
-                        {/* Branch Name */}
+                        {/* Location Name */}
                         <div className="dept-field">
                             <label htmlFor="name" className="dept-label">
-                                Branch Name <span className="required-star">*</span>
+                                Location Name <span className="required-star">*</span>
                             </label>
                             <div className={`dept-input-wrap ${isViewOnly ? "is-view" : ""}`}>
                                 <i className="bi bi-building dept-input-icon" aria-hidden="true" />
@@ -183,10 +191,10 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                             <ErrorMessage name="name" component="div" className="dept-error-text" />
                         </div>
 
-                        {/* Branch Code */}
+                        {/* Location Code */}
                         <div className="dept-field">
                             <label htmlFor="code" className="dept-label">
-                                Branch Code <span className="required-star">*</span>
+                                Location Code <span className="required-star">*</span>
                             </label>
                             <div className={`dept-input-wrap ${isViewOnly ? "is-view" : ""}`}>
                                 <i className="bi bi-hash dept-input-icon" aria-hidden="true" />
@@ -202,7 +210,7 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                         </div>
 
                         {/* Phone */}
-                        <div className="dept-field">
+                        {/* <div className="dept-field">
                             <label htmlFor="phoneNumber" className="dept-label">
                                 Phone <span className="optional-tag text-muted font-normal">(Optional)</span>
                             </label>
@@ -217,7 +225,7 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                                 />
                             </div>
                             <ErrorMessage name="phoneNumber" component="div" className="dept-error-text" />
-                        </div>
+                        </div> */}
 
                         {/* Postal Code */}
                         <div className="dept-field">
@@ -248,7 +256,7 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                                     as="textarea"
                                     name="address"
                                     id="address"
-                                    placeholder="Enter full branch address..."
+                                    placeholder="Enter full location address..."
                                     className={`form-control ${touched.address && errors.address ? "is-invalid" : ""}`}
                                     disabled={isViewOnly}
                                 />
@@ -256,7 +264,30 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                             <ErrorMessage name="address" component="div" className="dept-error-text" />
                         </div>
 
-                        {/* Country */}
+                        {/* Branch */}
+                        <div className="dept-field">
+                            <label htmlFor="branchId" className="dept-label">
+                                Branch <span className="required-star">*</span>
+                            </label>
+                            <div className={`department-select-wrap ${isViewOnly ? "is-view" : ""}`}>
+                                <SelectPicker
+                                    key="branchId"
+                                    options={branchOptions}
+                                    name="branchId"
+                                    id="branchId"
+                                    placeholder="Select Branch..."
+                                    isDisabled={isViewOnly}
+                                    value={branchOptions?.find((opt) => String(opt.value) === String(values.branchId)) || null}
+                                    onChange={(selected) => {
+                                        setFieldValue("branchId", selected ? selected.value : "");
+                                    }}
+                                    className="department-select"
+                                    classNamePrefix="department"
+                                    isSearchable
+                                />
+                            </div>
+                            <ErrorMessage name="branchId" component="div" className="dept-error-text" />
+                        </div>
                         <div className="dept-field">
                             <label htmlFor="countryId" className="dept-label">
                                 Country <span className="required-star">*</span>
@@ -272,19 +303,12 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                                     value={countryOptions?.find((opt) => String(opt.value) === String(values.countryId)) || null}
                                     onChange={async (selected) => {
                                         const countryId = selected?.value || "";
-
                                         await setFieldValue("countryId", countryId, true);
-
-                                        // Reset dependent fields
                                         await setFieldValue("stateId", "", false);
                                         await setFieldValue("cityId", "", false);
-
-                                        // Clear their old validation/touched state
                                         setFieldTouched("stateId", false, false);
                                         setFieldTouched("cityId", false, false);
-
                                         setCities([]);
-
                                         if (countryId) {
                                             fetchStates(countryId);
                                         } else {
@@ -362,10 +386,7 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                                     value={cityOptions?.find((opt) => String(opt.value) === String(values.cityId)) || null}
                                     onChange={async (selected) => {
                                         const cityId = selected?.value || "";
-
                                         await setFieldValue("cityId", cityId, true);
-
-                                        // Mark as touched only when user actually selects something
                                         setFieldTouched("cityId", true, false);
                                     }}
                                     className="department-select"
@@ -405,7 +426,7 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                                         Saving...
                                     </>
                                 ) : (
-                                    <>{mode === "create" ? "Create Branch" : "Save Changes"}</>
+                                    <>{mode === "create" ? "Create Location" : "Save Changes"}</>
                                 )}
                             </button>
                         </div>
@@ -416,4 +437,4 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
     );
 };
 
-export default AdminBranchDetail;
+export default AdminLocationDetail;
