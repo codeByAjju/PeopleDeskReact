@@ -64,6 +64,7 @@ function SuperAdminLocationDashboard() {
                 return {
                     ...location,
                     branchName: location?.branch?.name,
+                    branchId: location?.branch?.name,
                 }
             })
             const total = result?.pagination?.totalItems ?? result?.total ?? locationList.length;
@@ -140,7 +141,14 @@ function SuperAdminLocationDashboard() {
             { title: "#", key: "srNo" },
             { title: "Location Name", key: "name", sorting: true, filter: true },
             { title: "Code", key: "code", sorting: true, filter: true },
-            { title: "branch Name", key: "branchName", sorting: false, filter: true, filterType: "select", filterOptions: branches },
+            { 
+                title: "Branch Name",
+                key: "branchId", 
+                sorting: false, 
+                filter: true, 
+                filterType: "select", 
+                filterOptions: branches?.map(branch => ({ label: branch.name, value: branch.id })) || [] 
+            },
             {
                 title: "Status",
                 key: "status",
