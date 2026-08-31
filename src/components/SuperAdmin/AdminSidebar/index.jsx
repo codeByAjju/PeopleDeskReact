@@ -47,6 +47,15 @@ function AdminSidebar() {
         </NavLink>
         <NavLink
           className={navLinkClass}
+          to={SuperAdminAccessRoute.ADMIN_BRANCH.path}
+        >
+          <span className="nav-icon">
+            <i className="bi bi-flag" aria-hidden="true"></i>
+          </span>
+          <span className="nav-text">Branch</span>
+        </NavLink>
+        <NavLink
+          className={navLinkClass}
           to={SuperAdminAccessRoute.ADMIN_DEPARTMENT.path}
         >
           <span className="nav-icon">

@@ -5,7 +5,7 @@ import { SuperAdminDepartmentServices } from "../../../Services/SuperAdmin/Depar
 import { extractApiItem } from "../../../utils/common.util";
 import validation from "./validation";
 import "./AdminDepartmentDetail.css";
-import { DepartmentDetailsSkeleton } from "../../UiElement";
+import { DepartmentDetailsSkeleton, StatusSelector } from "../../UiElement";
 
 const AdminDepartmentDetail = ({ departmentId, mode = "view", onClose, onSuccess }) => {
     console.log("departmentId", departmentId)
@@ -153,32 +153,11 @@ const AdminDepartmentDetail = ({ departmentId, mode = "view", onClose, onSuccess
 
                         <div className="dept-field dept-full-width">
                             <span className="dept-label">Status <span className="required-star">*</span></span>
-                            <div className="status-selector">
-                                <button
-                                    type="button"
-                                    className={`status-pill pill-active ${values.status === "active" ? "active" : ""}`}
-                                    onClick={() => setFieldValue("status", "active")}
-                                    disabled={isViewOnly}
-                                >
-                                    <span className="dot" /> Active
-                                </button>
-                                <button
-                                    type="button"
-                                    className={`status-pill pill-inactive ${values.status === "inactive" ? "active" : ""}`}
-                                    onClick={() => setFieldValue("status", "inactive")}
-                                    disabled={isViewOnly}
-                                >
-                                    <span className="dot" /> Inactive
-                                </button>
-                                <button
-                                    type="button"
-                                    className={`status-pill pill-deleted ${values.status === "deleted" ? "active" : ""}`}
-                                    onClick={() => setFieldValue("status", "deleted")}
-                                    disabled={isViewOnly}
-                                >
-                                    <span className="dot" /> Deleted
-                                </button>
-                            </div>
+                            <StatusSelector
+                                value={values.status}
+                                onChange={(val) => setFieldValue("status", val)}
+                                disabled={isViewOnly}
+                            />
                             <ErrorMessage name="status" component="div" className="dept-error-text" />
                         </div>
                     </div>
