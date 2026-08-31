@@ -1,0 +1,1 @@
+export { default as SuperAdminLocationDashboard } from "./Dashboard/index.page.jsx";
