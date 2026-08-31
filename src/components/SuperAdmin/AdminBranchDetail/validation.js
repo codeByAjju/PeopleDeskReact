@@ -31,14 +31,23 @@ export default function validation() {
 
     countryId: yup
       .number()
+      .transform((value, originalValue) =>
+        originalValue === "" ? undefined : value
+      )
       .required("Country is required"),
 
     stateId: yup
       .number()
+      .transform((value, originalValue) =>
+        originalValue === "" ? undefined : value
+      )
       .required("State is required"),
 
     cityId: yup
       .number()
+      .transform((value, originalValue) =>
+        originalValue === "" ? undefined : value
+      )
       .required("City is required"),
 
     status: yup

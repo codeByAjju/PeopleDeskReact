@@ -154,7 +154,14 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
             validationSchema={validation()}
             onSubmit={onSubmit}
         >
-            {({ isSubmitting, errors, touched, values, setFieldValue }) => (
+            {({
+                isSubmitting,
+                errors,
+                touched,
+                values,
+                setFieldValue,
+                setFieldTouched,
+            }) => (
                 <Form className="dept-form-container">
                     <div className="dept-fields-grid">
 
@@ -263,19 +270,33 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                                     placeholder="Select Country..."
                                     isDisabled={isViewOnly}
                                     value={countryOptions?.find((opt) => String(opt.value) === String(values.countryId)) || null}
-                                    onChange={(selected) => {
-                                        setFieldValue("countryId", selected ? selected.value : "");
-                                        setFieldValue("stateId", "");
-                                        setFieldValue("cityId", "");
-                                        fetchStates(selected?.value);
+                                    onChange={async (selected) => {
+                                        const countryId = selected?.value || "";
+                                        await setFieldValue("countryId", countryId, true);
+                                        await setFieldValue("stateId", "", false);
+                                        await setFieldValue("cityId", "", false);
+                                        setFieldTouched("stateId", false, false);
+                                        setFieldTouched("cityId", false, false);
                                         setCities([]);
+                                        if (countryId) {
+                                            fetchStates(countryId);
+                                        } else {
+                                            setStates([]);
+                                        }
+                                    }}
+                                    onBlur={() => {
+                                        setFieldTouched("countryId", true, true);
                                     }}
                                     className="department-select"
                                     classNamePrefix="department"
                                     isSearchable
                                 />
                             </div>
-                            <ErrorMessage name="countryId" component="div" className="dept-error-text" />
+                            {touched.countryId && errors.countryId && (
+                                <div className="dept-error-text">
+                                    {errors.countryId}
+                                </div>
+                            )}
                         </div>
 
                         {/* State */}
@@ -292,17 +313,26 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                                     placeholder="Select State..."
                                     isDisabled={isViewOnly || !values.countryId}
                                     value={stateOptions?.find((opt) => String(opt.value) === String(values.stateId)) || null}
-                                    onChange={(selected) => {
-                                        setFieldValue("stateId", selected ? selected.value : "");
-                                        setFieldValue("cityId", "");
-                                        fetchCities(selected?.value);
+                                    onChange={async (selected) => {
+                                        const stateId = selected?.value || "";
+                                        await setFieldValue("stateId", stateId, true);
+                                        await setFieldValue("cityId", "", false);
+                                        setFieldTouched("cityId", false, false);
+                                        setCities([]);
+                                        if (stateId) {
+                                            fetchCities(stateId);
+                                        }
                                     }}
                                     className="department-select"
                                     classNamePrefix="department"
                                     isSearchable
                                 />
                             </div>
-                            <ErrorMessage name="stateId" component="div" className="dept-error-text" />
+                            {touched.stateId && errors.stateId && (
+                                <div className="dept-error-text">
+                                    {errors.stateId}
+                                </div>
+                            )}
                         </div>
 
                         {/* City */}
@@ -319,15 +349,21 @@ const AdminBranchDetail = ({ branchId, mode = "view", onClose, onSuccess, countr
                                     placeholder="Select City..."
                                     isDisabled={isViewOnly || !values.stateId}
                                     value={cityOptions?.find((opt) => String(opt.value) === String(values.cityId)) || null}
-                                    onChange={(selected) => {
-                                        setFieldValue("cityId", selected ? selected.value : "");
+                                    onChange={async (selected) => {
+                                        const cityId = selected?.value || "";
+                                        await setFieldValue("cityId", cityId, true);
+                                        setFieldTouched("cityId", true, false);
                                     }}
                                     className="department-select"
                                     classNamePrefix="department"
                                     isSearchable
                                 />
                             </div>
-                            <ErrorMessage name="cityId" component="div" className="dept-error-text" />
+                            {touched.cityId && errors.cityId && (
+                                <div className="dept-error-text">
+                                    {errors.cityId}
+                                </div>
+                            )}
                         </div>
 
                         {/* Status */}
