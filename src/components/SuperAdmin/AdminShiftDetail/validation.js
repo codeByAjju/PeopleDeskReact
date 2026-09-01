@@ -34,5 +34,7 @@ export default function validation() {
       .string()
       .oneOf(["active", "inactive", "deleted"], "Invalid status")
       .required("Status is required"),
+
+    isOvernight: yup.boolean(),
   });
 }
