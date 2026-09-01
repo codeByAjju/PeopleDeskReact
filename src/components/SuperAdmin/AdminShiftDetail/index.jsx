@@ -64,11 +64,19 @@ const AdminShiftDetail = ({ shiftId, mode = "view", onClose, onSuccess }) => {
 
     const onSubmit = async (values, { setSubmitting }) => {
         try {
+            const startHour = parseInt(values.startTime.split(":")[0], 10);
+            const endHour = parseInt(values.endTime.split(":")[0], 10);
+            const isOvernight = endHour < startHour;
+            const payloadValues = {
+                ...values,
+                isOvernight,
+            };
+
             let res;
             if (mode === "create") {
-                res = await SuperAdminShiftServices.superAdminCreateShift(values);
+                res = await SuperAdminShiftServices.superAdminCreateShift(payloadValues);
             } else {
-                res = await SuperAdminShiftServices.superAdminUpdateShift(shiftId, values);
+                res = await SuperAdminShiftServices.superAdminUpdateShift(shiftId, payloadValues);
             }
 
             if (res?.status === 200 || res?.status === 201) {
@@ -78,8 +86,6 @@ const AdminShiftDetail = ({ shiftId, mode = "view", onClose, onSuccess }) => {
                         : "Shift updated successfully"
                 );
                 if (onSuccess) onSuccess();
-            } else {
-                toast.error(res?.data?.message || "Failed to process shift request");
             }
         } catch (error) {
             toast.error(
@@ -173,6 +179,7 @@ const AdminShiftDetail = ({ shiftId, mode = "view", onClose, onSuccess }) => {
                                         onChange={(time) => setFieldValue("startTime", time)}
                                         disabled={isViewOnly}
                                         placeholder="HH:MM"
+                                        title="Start Time"
                                     />
                                 )}
                             </div>
@@ -199,6 +206,7 @@ const AdminShiftDetail = ({ shiftId, mode = "view", onClose, onSuccess }) => {
                                         onChange={(time) => setFieldValue("endTime", time)}
                                         disabled={isViewOnly}
                                         placeholder="HH:MM"
+                                        title="End Time"
                                     />
                                 )}
                             </div>

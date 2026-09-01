@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./TimePicker.css";
 
-export function TimePicker({ value = "", onChange, disabled = false, placeholder = "HH:MM" }) {
+export function TimePicker({ value = "", onChange, disabled = false, placeholder = "HH:MM" , title }) {
     const [isOpen, setIsOpen] = useState(false);
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
@@ -66,7 +66,7 @@ export function TimePicker({ value = "", onChange, disabled = false, placeholder
     const displayTime = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")} ${ampm}`;
     const displayValue = value || placeholder;
 
-    const hours24 = Array.from({ length: 24 }, (_, i) => i);
+    const hours24 = Array.from({ length: 12 }, (_, i) => i);
     const minutesArray = Array.from({ length: 60 }, (_, i) => i);
 
     return (
@@ -88,7 +88,7 @@ export function TimePicker({ value = "", onChange, disabled = false, placeholder
                         <div className="time-picker-container">
                             {/* Header */}
                             <div className="time-picker-header">
-                                <div className="time-picker-title">Basic time picker</div>
+                                <div className="time-picker-title">{title ?? "Basic time picker"}</div>
                                 <div className="time-picker-display">
                                     <input
                                         type="text"

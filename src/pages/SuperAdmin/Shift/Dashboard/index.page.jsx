@@ -18,6 +18,7 @@ function SuperAdminShiftDashboard() {
     const [debounceFlushKey, setDebounceFlushKey] = useState(0);
     const [loading, setLoading] = useState(false);
     const [shifts, setShifts] = useState([]);
+    console.log("shifts", shifts)
     const [showModal, setShowModal] = useState(false);
     const [modalMode, setModalMode] = useState("view"); // "view" | "edit" | "create"
     const [selectedShiftId, setSelectedShiftId] = useState(null);
