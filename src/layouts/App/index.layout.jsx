@@ -19,9 +19,11 @@ import logger from "../../utils/logger";
 
 import userAccessRoute from "../../routeControl/userRoutMap";
 import SuperAdminAccessRoute from "../../routeControl/superAdminRoutMap";
+import EmployeeAccessRoute from "../../routeControl/employeeRoutMap";
 
 const roleRedirectMap = {
   admin: SuperAdminAccessRoute.DASHBOARD.path,
+  employee: EmployeeAccessRoute.EMPLOYEE_DASHBOARD.path,
   user: userAccessRoute.DASHBOARD.path,
 };
 
@@ -89,6 +91,15 @@ function AppLayout({ setRedirectPath, children }) {
     );
   }, [activeRoute, location.pathname]);
 
+  const isEmployeeRoute = useMemo(() => {
+    return (
+      activeRoute?.employeeAccess === true ||
+      location.pathname
+        .replace(/^\/+/, "")
+        .startsWith(baseRoutes.employeeBaseRoute.replace(/^\/+/, ""))
+    );
+  }, [activeRoute, location.pathname]);
+
   // Guard against duplicate toast/redirect execution on re-renders & React StrictMode
   const redirectedRef = useRef(null);
 
@@ -112,7 +123,7 @@ function AppLayout({ setRedirectPath, children }) {
      * Logged-in user/admin trying to access unauthorized route
      */
     if (userData?.token && role && roleRedirectMap[role]) {
-      // Admin trying to access user route
+      // Admin trying to access user or employee route
       if (
         role === "admin" &&
         activeRoute?.commonRoute === true &&
@@ -130,16 +141,34 @@ function AppLayout({ setRedirectPath, children }) {
         return;
       }
 
-      // User trying to access admin route
+      // User trying to access admin or employee route
       if (
         role === "user" &&
-        activeRoute?.adminAccess === true
+        (activeRoute?.adminAccess === true || activeRoute?.employeeAccess === true)
       ) {
         toast.warning("You are not authorized to access this page.", {
           toastId: "unauthorized-access",
         });
 
         const target = roleRedirectMap.user;
+        if (typeof setRedirectPath === "function") {
+          setRedirectPath(target);
+        }
+        navigate(target, { replace: true });
+        return;
+      }
+
+      // Employee trying to access admin or user route
+      if (
+        role === "employee" &&
+        (activeRoute?.adminAccess === true ||
+          (activeRoute?.commonRoute === true && activeRoute?.employeeAccess !== true))
+      ) {
+        toast.warning("You are not authorized to access this page.", {
+          toastId: "unauthorized-access",
+        });
+
+        const target = roleRedirectMap.employee;
         if (typeof setRedirectPath === "function") {
           setRedirectPath(target);
         }
@@ -174,9 +203,14 @@ function AppLayout({ setRedirectPath, children }) {
         toastId: "login-required",
       });
 
-      const target = isAdminRoute
-        ? SuperAdminAccessRoute.LOGIN.path
-        : userAccessRoute.LOGIN.path;
+      let target;
+      if (isAdminRoute) {
+        target = SuperAdminAccessRoute.LOGIN.path;
+      } else if (isEmployeeRoute) {
+        target = EmployeeAccessRoute.EMPLOYEE_PUBLIC_HOMEPAGE.path;
+      } else {
+        target = userAccessRoute.LOGIN.path;
+      }
 
       if (typeof setRedirectPath === "function") {
         setRedirectPath(target);
@@ -186,6 +220,7 @@ function AppLayout({ setRedirectPath, children }) {
   }, [
     activeRoute,
     isAdminRoute,
+    isEmployeeRoute,
     isPrivate,
     isValid,
     location.pathname,
