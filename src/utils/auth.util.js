@@ -152,6 +152,39 @@ const authDriver = (route, userData, pathname) => {
 
       return false;
     }
+    /**
+     * =========================================================
+     * LOGGED IN EMPLOYEE
+     * =========================================================
+     */
+    if (role === "employee") {
+      /**
+       * Employee should NEVER access normal user routes.
+       */
+      if (route.commonRoute === true && route.employeeAccess !== true) {
+        return false;
+      }
+
+      if (isAdminPath || route.adminAccess === true) {
+        return false;
+      }
+      /**
+       * Employee should NOT access public authentication pages
+       * such as /login once already authenticated.
+       */
+      if (route.private === false) {
+        return false;
+      }
+
+      /**
+       * Employee can access only employee routes.
+       */
+      if (route.employeeAccess === true) {
+        return true;
+      }
+
+      return false;
+    }
 
     /**
      * Unknown role

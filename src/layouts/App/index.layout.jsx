@@ -19,9 +19,11 @@ import logger from "../../utils/logger";
 
 import userAccessRoute from "../../routeControl/userRoutMap";
 import SuperAdminAccessRoute from "../../routeControl/superAdminRoutMap";
+import EmployeeAccessRoute from "../../routeControl/employeeRoutMap";
 
 const roleRedirectMap = {
   admin: SuperAdminAccessRoute.DASHBOARD.path,
+  employee: EmployeeAccessRoute.EMPLOYEE_DASHBOARD.path,
   user: userAccessRoute.DASHBOARD.path,
 };
 
