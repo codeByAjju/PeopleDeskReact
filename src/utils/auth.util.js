@@ -12,6 +12,7 @@ const normalizeRole = (role) => {
   const normalizedRole = String(role).trim().toLowerCase();
 
   if (normalizedRole === "admin") return "admin";
+  if (normalizedRole === "employee") return "employee";
   if (normalizedRole === "user") return "user";
 
   return null;

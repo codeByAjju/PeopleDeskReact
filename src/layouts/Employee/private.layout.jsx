@@ -21,7 +21,7 @@ function EmployeePrivateLayout() {
             <div className="nk-main">
               <div className="employee-shell">
                 <div className="sidebar-backdrop" data-sidebar-close></div>
-                <EmployeeSidebar />
+                {/* <EmployeeSidebar /> */}
                 <div className="employee-main">
                   <EmployeeNavbar />
                   <Outlet />
